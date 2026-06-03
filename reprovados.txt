@@ -1,0 +1,6 @@
+=== RELATÓRIO de reprovados ===
+Data do relatorio: Wed Jun 03 12:32:50 2026
+
+Lucas - Média: 4.48416e-44 - Reprovado.
+
+Resumo: 1 Reprovados.

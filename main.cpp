@@ -13,12 +13,13 @@ int main() {
     float notas[20][5];
     float media[20];
 
-    inicio_menu:
+    inicio_menu: // tag utilizada para o goto redirecionar para o menu ao final da opção 3
 
     cout << "=== SISTEMA DE NOTAS v4.0 ===" << endl;
     cout << "1 - Novo relatório" << endl;
     cout << "2 - Ver relatório salvo" << endl;
     cout << "3 - Sobre o sistema" << endl;
+    cout << "4 - Relatório de reprovados" << endl;
     cout << "Escolha uma opção: ";
     cin >> opcaoInicial;
 
@@ -37,11 +38,26 @@ int main() {
        return 0;
     }
 
+    if (opcaoInicial == 4){
+        ifstream reprovas("reprovados.txt");
+        if (reprovas.is_open()){
+            string linha;
+            cout << "\n";
+            while (getline(reprovas, linha)){
+                cout << linha << endl;
+            }
+            reprovas.close();
+        }else {
+            cout << "Nenhum relatorio foi encontrado, faça um caso não tenha (1ºopção)"  << endl;
+        }
+        return 0;
+    }
+
     if (opcaoInicial == 3) {
         cout << "\n=== SOBRE ===" << endl;
         cout << "Desenvolvido por: Lucas Maciel" << endl;
         cout << "Turma: LOPAL 2026 - SENAI-SP" << "\n" << endl;
-        goto inicio_menu;
+        goto inicio_menu; // redireciona para a tag do menu
     }
 
     do {
@@ -52,13 +68,13 @@ int main() {
     cin.ignore();
 
     for (int i = 0; i < qtdAlunos; i++) {
-        nome_invalido:
-        cout << "Nome do aluno " << i + 1 << ": ";
+        nome_invalido: // tag do goto para a escrita obrigatoria de um nome
+        cout << "Digite o nome do aluno " << i + 1 << ": ";
         getline(cin, nomes[i]);
 
         if (nomes[i] == "") {
             cout << "Nome inválido!" << endl;
-            goto nome_invalido;
+            goto nome_invalido; // alternativa para o do-while, retorna para a tag de nome invalido
         }
     }
 
@@ -102,20 +118,43 @@ int main() {
     }
 
     cout << "\nResumo: " << aprovados << " aprovados, " << reprovados << " reprovados, " << recuperacao << " recuperação." << endl;
+    
+    int indiceMaior = 0;
+    int indiceMenor = 0;
 
+    time_t agora = time(0);
+    char* dataHora = ctime(&agora);
+    
+    ofstream reprovas("reprovados.txt");
+   
+        if (reprovas.is_open()) {
+        reprovas << "=== RELATÓRIO de reprovados ===" << endl;
+        reprovas << "Data do relatorio: " << dataHora << endl;
+
+        bool encontrouReprovado = false;
+        for(int i = 0; i < qtdAlunos; i++) {
+            if (media[i] < 5) {
+                reprovas << nomes[i] << " - Média: " << media[i] << " - Reprovado." << endl;
+                encontrouReprovado = true;
+            }           
+        }
+
+        if (!encontrouReprovado) {
+            reprovas << "Não tem reprovados :)" << endl;
+        }
+
+        reprovas << "\nResumo: " << reprovados << " Reprovados." << endl;
+        reprovas.close();
+        cout << "Relatório de reprovas criado com sucesso!" << endl;
+    } else {
+        cout << "Erro ao criar o arquivo!" << endl;
+    }
+    
     ofstream arquivo("relatorio.txt");
-
-    float indiceMaior = media[0];
-    string nomeMaior = nomes[0];
-
-    float indiceMenor = media[0];
-    string nomeMenor = nomes[0];
-
     if (arquivo.is_open()) {
         arquivo << "=== RELATÓRIO ===" << endl;
-        time_t agora = time(0);
-        char* dataHora = ctime(&agora);
         arquivo << "Data do relatorio: " << dataHora << endl;
+
         for(int i = 0; i < qtdAlunos; i++) {
             arquivo << nomes[i] << " - Média: " << media[i] << " - ";
             if (media[i] >= 7) {
@@ -126,21 +165,18 @@ int main() {
                 arquivo << "Reprovado! :(" << endl;
             }
 
-            if (media[i] > indiceMaior) {
-                indiceMaior = media[i];
-                nomeMaior = nomes[i];
+            if (media[i] > media[indiceMaior]) {
+                indiceMaior = i;
             }
-
-            if (media[i] > indiceMenor) {
-                indiceMenor = media[i];
-                nomeMenor = nomes[i];
+            if (media[i] < media[indiceMenor]) {
+                indiceMenor = i;
             }
         }
 
-        cout << "Maior média: " << nomeMaior << " (" << indiceMaior << ")" << endl;
-        cout << "Menor média: " << nomeMenor << " (" << indiceMenor << ")" << endl;
+        cout << "Maior média: " << nomes[indiceMaior] << " (" << media[indiceMaior] << ")" << endl;
+        cout << "Menor média: " << nomes[indiceMenor] << " (" << media[indiceMenor] << ")" << endl;
+        
         arquivo << "\nResumo: " << aprovados << " Aprovados, " << recuperacao << " Em recuperação, " << reprovados << " Reprovados." << endl;
-
         arquivo.close();
         cout << "\nRelatório criado com sucesso! Salvo como relatorio.txt" << endl;
     } else {
