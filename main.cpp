@@ -52,8 +52,14 @@ int main() {
     cin.ignore();
 
     for (int i = 0; i < qtdAlunos; i++) {
+        nome_invalido:
         cout << "Nome do aluno " << i + 1 << ": ";
         getline(cin, nomes[i]);
+
+        if (nomes[i] == "") {
+            cout << "Nome inválido!" << endl;
+            goto nome_invalido;
+        }
     }
 
     do {
