@@ -1,5 +1,7 @@
 === RELATÓRIO ===
-odranoel - Média: 4.5 - Reprovado! :(
-sacul - Média: 6.5 - Recuperação!
+Data do relatorio: Wed Jun 03 08:42:52 2026
 
-Resumo: 0 Aprovados, 1 Em recuperação, 1 Reprovados.
+Leonardo - Média: 8.5 - Aprovado! :)
+Lucas - Média: 6.5 - Recuperação!
+
+Resumo: 1 Aprovados, 1 Em recuperação, 0 Reprovados.

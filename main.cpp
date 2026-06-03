@@ -2,6 +2,7 @@
 #include <string>
 #include <windows.h>
 #include <fstream>
+#include <ctime>
 
 using namespace std;
 int main() {
@@ -100,6 +101,9 @@ int main() {
 
     if (arquivo.is_open()) {
         arquivo << "=== RELATÓRIO ===" << endl;
+        time_t agora = time(0);
+        char* dataHora = ctime(&agora);
+        arquivo << "Data do relatorio: " << dataHora << endl;
         for(int i = 0; i < qtdAlunos; i++) {
             arquivo << nomes[i] << " - Média: " << media[i] << " - ";
             if (media[i] >= 7) {
