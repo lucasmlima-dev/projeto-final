@@ -19,7 +19,7 @@ int main() {
     cout << "1 - Novo relatório" << endl;
     cout << "2 - Ver relatório salvo" << endl;
     cout << "3 - Sobre o sistema" << endl;
-    cout << "Escolha uma opção: " << endl;
+    cout << "Escolha uma opção: ";
     cin >> opcaoInicial;
 
     if (opcaoInicial == 2) {
@@ -63,7 +63,7 @@ int main() {
     }
 
     do {
-        cout << "\nQuantidade de disciplinas (1 a 5): " << endl;
+        cout << "\nQuantidade de disciplinas (1 a 5): ";
         cin >> qtdDisciplinas;
     } while (qtdDisciplinas < 1 || qtdDisciplinas > 5);
 
@@ -105,6 +105,12 @@ int main() {
 
     ofstream arquivo("relatorio.txt");
 
+    float indiceMaior = media[0];
+    string nomeMaior = nomes[0];
+
+    float indiceMenor = media[0];
+    string nomeMenor = nomes[0];
+
     if (arquivo.is_open()) {
         arquivo << "=== RELATÓRIO ===" << endl;
         time_t agora = time(0);
@@ -119,7 +125,20 @@ int main() {
             } else {
                 arquivo << "Reprovado! :(" << endl;
             }
+
+            if (media[i] > indiceMaior) {
+                indiceMaior = media[i];
+                nomeMaior = nomes[i];
+            }
+
+            if (media[i] > indiceMenor) {
+                indiceMenor = media[i];
+                nomeMenor = nomes[i];
+            }
         }
+
+        cout << "Maior média: " << nomeMaior << " (" << indiceMaior << ")" << endl;
+        cout << "Menor média: " << nomeMenor << " (" << indiceMenor << ")" << endl;
         arquivo << "\nResumo: " << aprovados << " Aprovados, " << recuperacao << " Em recuperação, " << reprovados << " Reprovados." << endl;
 
         arquivo.close();

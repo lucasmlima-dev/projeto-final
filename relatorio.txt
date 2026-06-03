@@ -1,7 +1,6 @@
 === RELATÓRIO ===
-Data do relatorio: Wed Jun 03 08:42:52 2026
+Data do relatorio: Wed Jun 03 10:14:20 2026
 
-Leonardo - Média: 8.5 - Aprovado! :)
-Lucas - Média: 6.5 - Recuperação!
+Lucas - Média: 2 - Reprovado! :(
 
-Resumo: 1 Aprovados, 1 Em recuperação, 0 Reprovados.
+Resumo: 0 Aprovados, 0 Em recuperação, 1 Reprovados.
